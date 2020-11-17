@@ -17,9 +17,9 @@ spec:
         image: registryknz5402.azurecr.io/tripinsights/tripviewer:1.0 # IMPORTANT: update with your own repository
         env:
         - name: USERPROFILE_API_ENDPOINT
-          value: http://userprofile-api-service:80
+          value: "http://userprofile-api-service.default.svc.cluster.local"
         - name: TRIPS_API_ENDPOINT
-          value: http://trips-api-service:80
+          value: "http://trips-api-service.default.svc.cluster.local"
         resources:
           requests: # minimum resources required
             cpu: 100m
