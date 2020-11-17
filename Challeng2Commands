@@ -66,6 +66,11 @@ kubectl describe pod poi-api -n tripinsightsapp
 
 kubectl get deployment poi-api --namespace tripinsightsapp
 
+//apply deployment 
+kubectl apply --namespace tripinsightsapp -f poi-api-deployment.yaml
 
 //inspect service
 kubectl get service poi-api-service -n tripinsightsapp
+
+// port forward
+kubectl port-forward -n tripinsightsapp service/poi-api-service 8080:80

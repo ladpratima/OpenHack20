@@ -13,11 +13,8 @@ spec:
         app: poi-api # the label for the pods and the deployments
     spec:
       containers:
-      - name: poi
+      - name: poi-api
         image: registryknz5402.azurecr.io/tripinsights/poi:1.0 # IMPORTANT: update with your own repository
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80 # the application listens to this port
         env:
         - name: SQL_USER
           value: "sqladminkNz5402"
@@ -29,29 +26,23 @@ spec:
           value: "mydrivingDB"
         resources:
           requests: # minimum resources required
-            cpu: 250m
-            memory: 64Mi
+            cpu: 100m
+            memory: 128Mi
           limits: # maximum resources allocated
-            cpu: 500m
+            cpu: 250m
             memory: 256Mi
-        readinessProbe: # is the container ready to receive traffic?
-          httpGet:
-            port: 80
-            path: /api/poi/healthcheck
-        livenessProbe: # is the container healthy?
-          httpGet:
-            port: 80
-            path: /api/poi/healthcheck
+        ports:
+        - containerPort: 80 # the application listens to this port
 ---            
 apiVersion: v1
 kind: Service
 metadata:
   name: poi-api-service
-  labels:
-    run: poi-api
 spec:
+  type: ClusterIP
   ports:
   - port: 80
+    targetPort: 80
     protocol: TCP
   selector:
-    run: poi-api
+    app: poi-api
