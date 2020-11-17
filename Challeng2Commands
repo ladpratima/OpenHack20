@@ -1,0 +1,59 @@
+//USING BASH IN VSCODE
+
+//1.) login to azure (will take you to a login page)
+
+az login
+
+//2.) create some local variables
+ 
+REGION_NAME=eastus
+RESOURCE_GROUP=aksworkshop
+SUBNET_NAME=aks-subnet
+VNET_NAME=aks-vnet
+   
+if you want to view a variable run:
+
+echo $VARIABLE_NAME e.g. echo $REGION_NAME
+   
+//3.) set a variable as the latest AKS version for our region
+
+VERSION=$(az aks get-versions \
+--location $REGION_NAME \
+--query 'orchestrators[?!isPreview] | [-1].orchestratorVersion' \
+--output tsv)
+   
+
+//4.) create default AKS cluster using our variables
+   
+   az aks create \
+--resource-group $RESOURCE_GROUP \
+--name $AKS_CLUSTER_NAME \
+--vm-set-type VirtualMachineScaleSets \
+--node-count 2 \
+--load-balancer-sku standard \
+--location $REGION_NAME \
+--kubernetes-version $VERSION \
+--generate-ssh-keys
+
+
+//5.) get the aks credentials
+
+az aks get-credentials \
+    --resource-group $RESOURCE_GROUP \
+    --name $AKS_CLUSTER_NAME
+
+
+//6.) use kube control to get the nodes
+kubectl get nodes
+
+
+//7.) set local variable with acr name
+ACR_NAME=registryknz5402
+
+
+//8.) attach acr to kube cluster
+az aks update \
+    --name $AKS_CLUSTER_NAME \
+    --resource-group $RESOURCE_GROUP \
+    --attach-acr $ACR_NAME
+
