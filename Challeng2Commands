@@ -61,3 +61,7 @@ az aks update \
 //9.) create the namespace for our apps in aks cluster
 
 kubectl create namespace tripinsightsapp
+
+kubectl describe pod poi-api -n tripinsightsapp
+
+kubectl get deployment poi-api --namespace tripinsightsapp
