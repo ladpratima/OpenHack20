@@ -12,6 +12,10 @@ RESOURCE_GROUP=challenge3
 SUBNET_NAME=vm-subnet
 VNET_NAME=vnet
 AKS_CLUSTER_NAME=aksworkshop-3
+VERSION=$(az aks get-versions \
+  --location $REGION_NAME \
+  --query 'orchestrators[?!isPreview] | [-1].orchestratorVersion' \
+  --output tsv)
 
 //Create a new cluster in the vnet
 az aks create \
