@@ -1,0 +1,38 @@
+//USING BASH IN VSCODE
+
+//Create an AD group
+az ad group create --display-name ch3AKSAdminGroup --mail-nickname ch3AKSAdminGroup
+
+//Add members
+In Azure Portal: Azure Active Directory > Groups > ch3AKSAdminGroup > Members > Add members
+
+//Create some local variables 
+REGION_NAME=northeurope
+RESOURCE_GROUP=challenge3
+SUBNET_NAME=vm-subnet
+VNET_NAME=vnet
+AKS_CLUSTER_NAME=aksworkshop-3
+
+//Create a new cluster in the vnet
+az aks create \
+  --resource-group $RESOURCE_GROUP \
+  --name $AKS_CLUSTER_NAME \
+  --network-plugin azure \
+  --vnet-subnet-id /subscriptions/ada6875d-873b-40ea-bc55-e9f261d050ad/resourceGroups/teamResources/providers/Microsoft.Network/virtualNetworks/vnet/subnets/vm-subnet \
+  --docker-bridge-address 172.17.0.1/16 \
+  --dns-service-ip 10.2.20.10 \
+  --service-cidr 10.2.20.0/24 \
+  --node-count 2 \
+  --kubernetes-version $VERSION \
+  --generate-ssh-keys \
+  --enable-aad \
+  --aad-admin-group-object-ids f83eac81-c2d1-4292-9e52-095a4c98f043 \
+  --aad-tenant-id 68de8f0f-6623-409d-82dd-3e947abdeeb8
+
+//Test connectivity
+//Get Creds
+az aks get-credentials --resource-group challenge3 --name aksworkshop-3
+
+//Test connection
+kubectl run -it busybox --image=busybox -- sh
+ping internal-vm
