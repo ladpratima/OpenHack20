@@ -58,3 +58,6 @@ az aks update \
     --resource-group $RESOURCE_GROUP \
     --attach-acr $ACR_NAME
 
+//9.) create the namespace for our apps in aks cluster
+
+kubectl create namespace tripinsightsapp

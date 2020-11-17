@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi-api
+spec:
+  selector:
+    matchLabels:
+      app: poi-api
+  template:
+    metadata:
+      labels:
+        app: poi-api # the label for the pods and the deployments
+    spec:
+      containers:
+      - name: poi
+        image: registryknz5402.azurecr.io/tripinsights/poi:1.0 # IMPORTANT: update with your own repository
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80 # the application listens to this port
+        env:
+        - name: SQL_USER
+          value: "sqladminkNz5402"
+        - name: SQL_PASSWORD
+          value: "fK7rn4Ng6"
+        - name: SQL_SERVER
+          value: "sqlserverknz5402.database.windows.net"
+        - name: SQL_DBNAME
+          value: "mydrivingDB"
+        resources:
+          requests: # minimum resources required
+            cpu: 250m
+            memory: 64Mi
+          limits: # maximum resources allocated
+            cpu: 500m
+            memory: 256Mi
+        readinessProbe: # is the container ready to receive traffic?
+          httpGet:
+            port: 80
+            path: /api/poi/healthcheck
+        livenessProbe: # is the container healthy?
+          httpGet:
+            port: 80
+            path: /api/poi/healthcheck
