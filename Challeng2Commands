@@ -6,10 +6,11 @@ az login
 
 //2.) create some local variables
  
-REGION_NAME=eastus
-RESOURCE_GROUP=aksworkshop
+REGION_NAME=northeurope
+RESOURCE_GROUP=challenge2
 SUBNET_NAME=aks-subnet
 VNET_NAME=aks-vnet
+AKS_CLUSTER_NAME=aksworkshop-5430
    
 if you want to view a variable run:
 
