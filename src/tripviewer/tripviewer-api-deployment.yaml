@@ -16,14 +16,10 @@ spec:
       - name: tripviewer-api
         image: registryknz5402.azurecr.io/tripinsights/tripviewer:1.0 # IMPORTANT: update with your own repository
         env:
-        - name: SQL_USER
-          value: "sqladminkNz5402"
-        - name: SQL_PASSWORD
-          value: "fK7rn4Ng6"
-        - name: SQL_SERVER
-          value: "sqlserverknz5402.database.windows.net"
-        - name: SQL_DBNAME
-          value: "mydrivingDB"
+        - name: USERPROFILE_API_ENDPOINT
+          value: http://userprofile-api-service:80
+        - name: TRIPS_API_ENDPOINT
+          value: http://trips-api-service:80
         resources:
           requests: # minimum resources required
             cpu: 100m
