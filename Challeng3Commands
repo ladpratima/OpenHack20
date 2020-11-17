@@ -17,6 +17,12 @@ VERSION=$(az aks get-versions \
   --query 'orchestrators[?!isPreview] | [-1].orchestratorVersion' \
   --output tsv)
 
+//Get the vnet id
+az network vnet subnet list --resource-group teamResources --vnet-name vnet --query "[0].id" --output tsv
+
+//Get the tenant id
+az account show --query tenantId -o tsv
+
 //Create a new cluster in the vnet
 az aks create \
   --resource-group $RESOURCE_GROUP \
