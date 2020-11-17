@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: poi-api
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: poi-api
@@ -41,3 +42,16 @@ spec:
           httpGet:
             port: 80
             path: /api/poi/healthcheck
+---            
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi-api-service
+  labels:
+    run: poi-api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: poi-api

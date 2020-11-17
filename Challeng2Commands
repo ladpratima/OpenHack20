@@ -65,3 +65,7 @@ kubectl create namespace tripinsightsapp
 kubectl describe pod poi-api -n tripinsightsapp
 
 kubectl get deployment poi-api --namespace tripinsightsapp
+
+
+//inspect service
+kubectl get service poi-api-service -n tripinsightsapp
