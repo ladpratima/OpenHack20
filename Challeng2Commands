@@ -51,7 +51,6 @@ kubectl get nodes
 //7.) set local variable with acr name
 ACR_NAME=registryknz5402
 
-
 //8.) attach acr to kube cluster
 az aks update \
     --name $AKS_CLUSTER_NAME \
@@ -59,18 +58,23 @@ az aks update \
     --attach-acr $ACR_NAME
 
 //9.) create the namespace for our apps in aks cluster
-
 kubectl create namespace tripinsightsapp
-
-kubectl describe pod poi-api -n tripinsightsapp
-
-kubectl get deployment poi-api --namespace tripinsightsapp
 
 //apply deployment 
 kubectl apply --namespace tripinsightsapp -f poi-api-deployment.yaml
 
+//Inspect deployment
+kubectl get deployment poi-api --namespace tripinsightsapp
+
 //inspect service
 kubectl get service poi-api-service -n tripinsightsapp
 
+//describe pod in detail
+kubectl describe pod poi-api -n tripinsightsapp
+
 // port forward
 kubectl port-forward -n tripinsightsapp service/poi-api-service 8080:80
+
+
+
+
