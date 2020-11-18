@@ -16,15 +16,17 @@ spec:
       containers:
       - name: userprofile-api
         image: registryknz5402.azurecr.io/tripinsights/userprofile:1.0 # IMPORTANT: update with your own repository
+        ports:
+        - containerPort: 80 # the application listens to this port
         env:
         - name: SQL_USER
-          value: "sqladminkNz5402"
+          value: "from key vault"
         - name: SQL_PASSWORD
-          value: "fK7rn4Ng6"
+          value: "from key vault"
         - name: SQL_SERVER
-          value: "sqlserverknz5402.database.windows.net"
+          value: "from key vault"
         - name: SQL_DBNAME
-          value: "mydrivingDB"
+          value: "from key vault"
         resources:
           requests: # minimum resources required
             cpu: 100m
@@ -32,8 +34,19 @@ spec:
           limits: # maximum resources allocated
             cpu: 250m
             memory: 256Mi
-        ports:
-        - containerPort: 80 # the application listens to this port
+        volumeMounts:
+          - name: secrets
+            mountPath: "/mnt/secrets"
+            readOnly: true
+      volumes:
+      - name: secrets
+        csi:
+          driver: secrets-store.csi.k8s.io 
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "kv-aks-2345"
+          nodePublishSecretRef:
+            name: secrets-store-creds
 ---            
 apiVersion: v1
 kind: Service
