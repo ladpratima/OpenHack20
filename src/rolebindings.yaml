@@ -8,12 +8,13 @@ metadata:
 subjects:
 # You can specify more than one "subject"
 - kind: Group
-  name: webgroup # "name" is case sensitive
+  name: 13427e8a-5468-4a9c-838b-7e24e0a9a0e3 # "object id from azure!" 
+  namespace: tripinsightsweb
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
-  kind: Role #this must be Role or ClusterRole
-  name: edit-role # this must match the name of the Role or ClusterRole you wish to bind to
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: edit # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -26,12 +27,13 @@ metadata:
 subjects:
 # You can specify more than one "subject"
 - kind: Group
-  name: webgroup # "name" is case sensitive
+  name: 13427e8a-5468-4a9c-838b-7e24e0a9a0e3 # "object id from azure!" 
+  namespace: tripinsightsapi
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
-  kind: Role #this must be Role or ClusterRole
-  name: read-role # this must match the name of the Role or ClusterRole you wish to bind to
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: view # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -44,12 +46,13 @@ metadata:
 subjects:
 # You can specify more than one "subject"
 - kind: Group
-  name: apigroup # "name" is case sensitive
+  name: 9dc30127-44ba-48ae-b2a5-0bbe09e2da04 # "object id from azure!"
+  namespace: tripinsightsapi
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
-  kind: Role #this must be Role or ClusterRole
-  name: edit-role # this must match the name of the Role or ClusterRole you wish to bind to
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: edit # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -62,10 +65,11 @@ metadata:
 subjects:
 # You can specify more than one "subject"
 - kind: Group
-  name: apigroup # "name" is case sensitive
+  name: 9dc30127-44ba-48ae-b2a5-0bbe09e2da04 # "object id from azure!"
+  namespace: tripinsightsweb
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
-  kind: Role #this must be Role or ClusterRole
-  name: read-role # this must match the name of the Role or ClusterRole you wish to bind to
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: view # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
