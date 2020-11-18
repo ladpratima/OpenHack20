@@ -52,6 +52,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: trips-api-service
+  namespace: tripinsightsapi
 spec:
   type: ClusterIP
   ports:
