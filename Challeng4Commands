@@ -68,3 +68,5 @@ kubectl apply -f roles.yaml
 
 kubectl apply -f rolebindings.yaml
 
+
+kubectl create secret generic secrets-store-creds --from-literal clientid=8e50d224-e737-4d2f-8739-999fafa49c69 --from-literal clientsecret=.-er_e77E~52AAuS34-5dM36pSmntl.RQ9 -n tripinsightsapi

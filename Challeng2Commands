@@ -73,7 +73,7 @@ kubectl get service poi-api-service -n tripinsightsapp
 kubectl describe pod poi-api -n tripinsightsapp
 
 // port forward
-kubectl port-forward -n tripinsightsapp service/poi-api-service 8080:80
+kubectl port-forward -n tripinsightsapi service/poi-api-service 8080:80
 
 
 
