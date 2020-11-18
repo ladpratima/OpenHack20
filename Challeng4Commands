@@ -1,0 +1,70 @@
+//USING BASH IN VSCODE
+
+//create the namespace for our apps in aks cluster
+kubectl create namespace tripinsightsweb
+
+kubectl create namespace tripinsightsapi
+
+//apply deployment 
+kubectl apply -f poi-api-deployment.yaml
+
+
+trips-api-deployment
+
+//Create an AD group
+az ad group create --display-name ch3AKSAdminGroup --mail-nickname ch3AKSAdminGroup
+
+//Add members
+In Azure Portal: Azure Active Directory > Groups > ch3AKSAdminGroup > Members > Add members
+
+//Create some local variables 
+REGION_NAME=northeurope
+RESOURCE_GROUP=challenge3
+SUBNET_NAME=vm-subnet
+VNET_NAME=vnet
+AKS_CLUSTER_NAME=aksworkshop-3
+VERSION=$(az aks get-versions \
+  --location $REGION_NAME \
+  --query 'orchestrators[?!isPreview] | [-1].orchestratorVersion' \
+  --output tsv)
+
+//Test connectivity
+//Get Creds
+az aks get-credentials --resource-group challenge3 --name aksworkshop-3
+
+//Test connection
+kubectl run -it busybox --image=busybox -- sh
+ping internal-vm
+
+
+// GET AKS CLUSTER OBJECT ID
+AKS_ID=$(az aks show \
+    --resource-group $RESOURCE_GROUP \
+    --name $AKS_CLUSTER_NAME \
+    --query id -o tsv)
+
+
+--api group id
+"objectId": "9dc30127-44ba-48ae-b2a5-0bbe09e2da04",
+
+--web group ID
+ "objectId": "13427e8a-5468-4a9c-838b-7e24e0a9a0e3",
+
+
+
+ az role assignment create \
+  --assignee "9dc30127-44ba-48ae-b2a5-0bbe09e2da04" \
+  --role "Azure Kubernetes Service Cluster User Role" \
+  --scope "/subscriptions/ada6875d-873b-40ea-bc55-e9f261d050ad/resourcegroups/challenge3/providers/Microsoft.ContainerService/managedClusters/aksworkshop-3"
+
+
+   az role assignment create \
+  --assignee "13427e8a-5468-4a9c-838b-7e24e0a9a0e3" \
+  --role "Azure Kubernetes Service Cluster User Role" \
+  --scope "/subscriptions/ada6875d-873b-40ea-bc55-e9f261d050ad/resourcegroups/challenge3/providers/Microsoft.ContainerService/managedClusters/aksworkshop-3"
+
+
+kubectl apply -f roles.yaml
+
+kubectl apply -f rolebindings.yaml
+
