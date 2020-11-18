@@ -44,6 +44,9 @@ AKS_ID=$(az aks show \
     --query id -o tsv)
 
 
+
+//Create 2 groups in AAD one for each type of User and get the object id for the group
+
 --api group id
 "objectId": "9dc30127-44ba-48ae-b2a5-0bbe09e2da04",
 
@@ -51,12 +54,12 @@ AKS_ID=$(az aks show \
  "objectId": "13427e8a-5468-4a9c-838b-7e24e0a9a0e3",
 
 
+//create a role assignment for each group that joins the group to the AKS service cluster user role
 
  az role assignment create \
   --assignee "9dc30127-44ba-48ae-b2a5-0bbe09e2da04" \
   --role "Azure Kubernetes Service Cluster User Role" \
   --scope "/subscriptions/ada6875d-873b-40ea-bc55-e9f261d050ad/resourcegroups/challenge3/providers/Microsoft.ContainerService/managedClusters/aksworkshop-3"
-
 
    az role assignment create \
   --assignee "13427e8a-5468-4a9c-838b-7e24e0a9a0e3" \
@@ -64,9 +67,16 @@ AKS_ID=$(az aks show \
   --scope "/subscriptions/ada6875d-873b-40ea-bc55-e9f261d050ad/resourcegroups/challenge3/providers/Microsoft.ContainerService/managedClusters/aksworkshop-3"
 
 
-kubectl apply -f roles.yaml
-
+//apply the role bindings
 kubectl apply -f rolebindings.yaml
 
-
+// create a key vault in azure same rg and region as AKS cluster
+// create an app registration in AAD and create a secret
+// give the app registation permissions to the keyvault secrets
+// create a secrets store with the app regsitration created above
 kubectl create secret generic secrets-store-creds --from-literal clientid=8e50d224-e737-4d2f-8739-999fafa49c69 --from-literal clientsecret=.-er_e77E~52AAuS34-5dM36pSmntl.RQ9 -n tripinsightsapi
+
+//create a secrets yaml file and apply it
+
+//update our deployment yaml files and apply them referencing the secret creds store
+
